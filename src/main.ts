@@ -26,7 +26,8 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3001);
 
-  console.log("Server runnning at: http://localhost:3001 ");
-  console.log("Docs available at : http://localhost:3001/api ")
+  console.log("[SERVER] - Server runnning at: http://localhost:3001 ");
+  console.log("[SERVER] - Docs available at : http://localhost:3001/api ")
 }
+
 bootstrap();
