@@ -14,12 +14,12 @@ Este documento tem como objetivo definir os requisitos do sistema por meio das h
 
 ### Histórias (Visitantes) :
 
-- Como visitante, eu gostaria de efetuar registro no sistema.
+- Como visitante, eu gostaria de efetuar registro no sistema. (Ok)
 
 ### Histórias (Clientes) : 
 
-- Como cliente, eu gostaria de alterar meu registro no sistema.
-- Como cliente, eu gostaria de pedir cancelamento do meu registro no sistema.
+- Como cliente, eu gostaria de alterar meu registro no sistema. (Ok)
+- Como cliente, eu gostaria de cancelar o meu registro no sistema. (Ok)
 - Como cliente, eu gostaria de criar uma conta.
 - Como cliente, eu gostaria de acessar minha conta com minhas credenciais.
 - Como cliente, eu gostaria de pedir a mudança das credenciais da minha conta.
