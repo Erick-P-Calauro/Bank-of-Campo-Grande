@@ -4,12 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { IdentityModule } from './identity/identity.module';
+import { User } from './identity/models/User';
 
 @Module({
   imports: [
-    TransactionsModule, 
-    AuthModule, 
-    AccountsModule,
     ConfigModule.forRoot({
       envFilePath: ".env"
     }),
@@ -20,9 +19,13 @@ import { AccountsModule } from './accounts/accounts.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
+    TransactionsModule, 
+    AuthModule, 
+    AccountsModule,
+    IdentityModule,
   ],
   controllers: [],
   providers: [],

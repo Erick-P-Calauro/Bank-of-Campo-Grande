@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule, SwaggerDocumentOptions } from '@nestjs/
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { IdentityModule } from './identity/identity.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,7 +13,8 @@ async function bootstrap() {
     include: [
       TransactionsModule,
       AuthModule,
-      AccountsModule
+      AccountsModule,
+      IdentityModule
     ]
   }
 

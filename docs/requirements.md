@@ -4,14 +4,22 @@ Este documento tem como objetivo definir os requisitos do sistema por meio das h
 
 ## Papéis de usuário : 
 
-- Clientes : São considerados clientes quaisquer usuários autorizados a realizar operações bancárias.
+- Visitantes : São considerados visitantes quaisquer usuários externos e não cadastrados com acesso ao sistema.
+
+- Clientes : São considerados clientes quaisquer usuários que estão registrados no sistema.
 
 - Gerentes : São considerados gerentes quaisquer usuários com acesso administrativo suficiente para manipulação de dados dos clientes.
 
 ## Histórias : 
 
+### Histórias (Visitantes) :
+
+- Como visitante, eu gostaria de efetuar registro no sistema.
+
 ### Histórias (Clientes) : 
 
+- Como cliente, eu gostaria de alterar meu registro no sistema.
+- Como cliente, eu gostaria de pedir cancelamento do meu registro no sistema.
 - Como cliente, eu gostaria de criar uma conta.
 - Como cliente, eu gostaria de acessar minha conta com minhas credenciais.
 - Como cliente, eu gostaria de pedir a mudança das credenciais da minha conta.
@@ -23,6 +31,7 @@ Este documento tem como objetivo definir os requisitos do sistema por meio das h
 - Como cliente, eu gostaria de efetuar operações utilizando o sistema pix.
 - Como cliente, eu gostaria de cadastrar um cartão de débito.
 - Como cliente, eu gostaria de efetuar compras com cartão de débito.
+- Como cliente, eu gostaria de pedir o bloqueio de um cartão de débito.
 - Como cliente, eu gostaria de pedir o cancelamento de um cartão de débito.
 - Como cliente, eu gostaria de solicitar o extrato da minha conta bancária com períodos de 1 dia, 7 dias e 30 dias.
 
@@ -33,5 +42,6 @@ Este documento tem como objetivo definir os requisitos do sistema por meio das h
 - Como gerente, eu gostaria de pausar o funcionamento de uma conta de um cliente.
 - Como gerente, eu gostaria de retomar o funcionamento de uma conta de um cliente.
 - Como gerente, eu gostaria de efetuar o cancelamento de conta solicitado pelos clientes.
+- Como gerente, eu gostaria de efetuar o bloqueio de cartão de débito solicitado pelos clientes.
 - Como gerente, eu gostaria de efetuar o cancelamento de cartão de débito solicitado pelos clientes.
 - Como gerente, eu gostaria de efetuar as mudanças de credenciais de conta solicitadas pelos clientes.
