@@ -1,5 +1,4 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { UserResponse } from "../dto/UserResponse";
 
 export enum UserRole {
     "manager",
@@ -15,7 +14,7 @@ export class User {
     @Column({type: "varchar", length: 45, nullable: false, unique: true})
     name: string;
 
-    @Column({type: "varchar", length: 11, nullable: false})
+    @Column({type: "varchar", length: 11, nullable: false, unique: true})
     cpf: string;
 
     @Column({type: "varchar", length: 11, nullable: true})
