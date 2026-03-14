@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/User';
 import { Repository } from 'typeorm';
@@ -9,16 +9,18 @@ import { hash, genSalt } from 'bcrypt';
 import { UserUpdate } from './dto/UserRequest';
 
 @Injectable()
-export class IdentityService implements OnModuleInit{
+export class IdentityService implements OnApplicationBootstrap{
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
     ) {}
-    
-    async onModuleInit() {
-        const user = await this.userRepository.findOneBy({login: process.env.ADMIN_LOGIN ?? ""})
 
-        if(user == null) {
+    public static flag = 0;
+    
+    public async onApplicationBootstrap() {
+        const user = await this.userRepository.existsBy({login: process.env.ADMIN_LOGIN ?? ""});
+
+        if(!user && !IdentityService.flag) {
             this.userRepository.save(new UserSave(
                 'admin', 
                 process.env.ADMIN_LOGIN ?? "",
@@ -29,8 +31,9 @@ export class IdentityService implements OnModuleInit{
                 new Date(Date.now()), 
                 UserRole.manager)
             );
+
+            IdentityService.flag = 1;
         }
-    
     }
 
     public save (user: UserSave) {
@@ -72,13 +75,7 @@ export class IdentityService implements OnModuleInit{
     }
 
     public async verifyUserExistence(id: string) {
-        const user = await this.userRepository.findOneBy({user_id: id});
-
-        if(user == null) {
-            return false;
-        }
-
-        return true;
+        return await this.userRepository.existsBy({user_id: id})
     }
 
     public async edit(id: string, user: UserUpdate) {
