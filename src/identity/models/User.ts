@@ -14,11 +14,17 @@ export class User {
     @Column({type: "varchar", length: 45, nullable: false, unique: true})
     name: string;
 
+    @Column({type: "text", nullable: false})
+    password: string;
+
     @Column({type: "varchar", length: 11, nullable: false, unique: true})
     cpf: string;
 
     @Column({type: "varchar", length: 11, nullable: true})
     phone: string | undefined;
+
+    @Column({type: "varchar", length: 60, nullable: true, unique: true})
+    email: string | undefined;
 
     @Column({type: "timestamp", nullable: false,})
     created_at: Date;

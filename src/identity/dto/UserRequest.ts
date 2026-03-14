@@ -7,6 +7,8 @@ export class UserRequest {
     })
     name: string;
 
+    password: string;
+
     @ApiProperty({
         description: "cpf of user without dots",
         required: true,
@@ -24,4 +26,11 @@ export class UserRequest {
         example: "67111122224"
     })
     phone: string;
+
+    @ApiProperty({
+        description: "user email",
+        required:  false,
+        example: "user@email.com"
+    })
+    email: string;
 }

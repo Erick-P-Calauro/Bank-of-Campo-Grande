@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/User';
 import { Repository } from 'typeorm';
 import { UserSave, UserUpdate } from './dto/UserSave';
+import { UserNotFoundException } from './exceptions/UserNotFound';
 
 @Injectable()
 export class IdentityService {
@@ -11,26 +12,56 @@ export class IdentityService {
         private userRepository: Repository<User>,
     ) {}
 
-    save (user: UserSave) {
+    public save (user: UserSave) {
         return this.userRepository.save(user);
     }
 
-    findAll () {
+    public findAll () {
         return this.userRepository.find();
     }
 
-    findById(id: string) {
-        const user = this.userRepository.findBy({user_id: id});
+    public async findById(id: string) {
+        const user = await this.userRepository.findOneBy({user_id: id});
+
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
 
         return user;
     }
 
-    edit(id: string, user: UserUpdate) {
+    public async findByCpf(cpf: string) {
+        const user = await this.userRepository.findOneBy({cpf: cpf});
+
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
+
+        return user;
+    }
+
+    public async verifyUserExistence(id: string) {
+        const user = await this.userRepository.findOneBy({user_id: id});
+
+        if(user == null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async edit(id: string, user: UserUpdate) {
+        const userExist = await this.verifyUserExistence(id);
+
+        if(!userExist) {
+            throw new UserNotFoundException();
+        }
+
         return this.userRepository.update({user_id: id}, user)
     }
 
-    delete(id: string) {
-        return this.userRepository.delete({user_id: id})
+    public delete(id: string) {
+        return this.userRepository.delete({user_id: id});
     }
 
 }
