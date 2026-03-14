@@ -2,10 +2,11 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/User';
 import { Repository } from 'typeorm';
-import { UserSave, UserUpdate } from './dto/UserSave';
+import { UserSave } from './dto/UserSave';
 import { UserNotFoundException } from './exceptions/UserNotFound';
 import { UserRole } from 'src/auth/roles';
 import { hash, genSalt } from 'bcrypt';
+import { UserUpdate } from './dto/UserRequest';
 
 @Injectable()
 export class IdentityService implements OnModuleInit{

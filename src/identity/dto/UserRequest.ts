@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 
 export class UserRequest {
     @ApiProperty({
@@ -36,3 +36,5 @@ export class UserRequest {
     })
     email: string;
 }
+
+export class UserUpdate extends PartialType(UserRequest) {}

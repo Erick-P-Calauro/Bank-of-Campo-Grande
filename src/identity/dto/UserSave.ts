@@ -1,5 +1,3 @@
-import { PartialType } from "@nestjs/swagger";
-
 export class UserSave  {
     name: string;
     login: string;
@@ -21,5 +19,3 @@ export class UserSave  {
         this.user_role = user_role;
     }
 }
-
-export class UserUpdate extends PartialType(UserSave) {}

@@ -1,9 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Patch, Post } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { IdentityService } from './identity.service';
-import { UserRequest } from './dto/UserRequest';
+import { UserRequest, UserUpdate } from './dto/UserRequest';
 import { UserMapper } from './dto/UserMapper';
-import { UserUpdate } from './dto/UserSave';
 import * as bcrypt from 'bcrypt';
 import { UserRole } from '../auth/roles';
 import { Public } from 'src/utils/global.decorators';
@@ -43,7 +42,10 @@ export class IdentityController {
     @Patch(':id')
     @HttpCode(204)
     public async editUser(@Param('id') id: string, @Body() user: UserUpdate) {
-        this.IdentityService.edit(id, user)
+        const encripted_pass = user.password ? await bcrypt.hash(user.password, await bcrypt.genSalt()) : undefined;
+        const userToUpdate = UserMapper.toUpdateUserSaveDto(user, encripted_pass);
+
+        this.IdentityService.edit(id, userToUpdate);
     }
 
     @Delete(':id')
