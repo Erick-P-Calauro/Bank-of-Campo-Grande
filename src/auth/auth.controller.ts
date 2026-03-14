@@ -23,7 +23,7 @@ export class AuthController {
             throw new HttpException("Incorrect credentials.", HttpStatus.UNAUTHORIZED);
         }
 
-        return new LoginResponse(await this.AuthService.login(user!.user_id, user!.name));
+        return new LoginResponse(await this.AuthService.login(user!.user_id, user!.name, user!.user_role));
     }
 
 }

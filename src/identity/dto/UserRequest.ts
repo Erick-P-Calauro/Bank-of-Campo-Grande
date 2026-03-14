@@ -1,38 +1,37 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
+import { UserRole } from "src/auth/roles";
 
 export class UserRequest {
     @ApiProperty({
-        description: "user name",
         required: true
     })
     name: string;
 
+    @ApiProperty({
+        required: true
+    })
     login: string;
 
+    @ApiProperty({
+        required : true
+    })
     password: string;
 
     @ApiProperty({
-        description: "cpf of user without dots",
+        description: "user cpf (only numbers)",
         required: true,
-        maxLength: 11,
-        minLength: 11,
-        example: "11122233344"
     })
     cpf: string;
 
     @ApiProperty({
-        description: "phone number with ddd",
+        description: "phone number with ddd (only numbers)",
         required: false,
-        maxLength: 11,
-        minLength: 11,
-        example: "67111122224"
     })
     phone: string;
 
     @ApiProperty({
         description: "user email",
         required:  false,
-        example: "user@email.com"
     })
     email: string;
 }
