@@ -16,13 +16,14 @@ export class AuthController {
     @HttpCode(200)
     public async login(@Body() loginRequest: LoginRequest) {
 
-        const user = await this.IdentityService.findByCpf(loginRequest.cpf);
+        const user = loginRequest.login ? await this.IdentityService.findByLogin(loginRequest.login) : loginRequest.cpf ? await this.IdentityService.findByCpf(loginRequest.cpf) : null;
+        const isValid : boolean = user == null ? false : await bcrypt.compare(loginRequest.password, user.password)
 
-        if(!bcrypt.compare(loginRequest.password, user.password)) {
+        if(!isValid) {
             throw new HttpException("Incorrect credentials.", HttpStatus.UNAUTHORIZED);
         }
 
-        return new LoginResponse(await this.AuthService.login(user.user_id, user.name));
+        return new LoginResponse(await this.AuthService.login(user!.user_id, user!.name));
     }
 
 }

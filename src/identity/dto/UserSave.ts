@@ -2,6 +2,7 @@ import { PartialType } from "@nestjs/swagger";
 
 export class UserSave  {
     name: string;
+    login: string;
     cpf: string;
     password: string;
     phone: string;
@@ -9,8 +10,9 @@ export class UserSave  {
     created_at: Date;
     user_role: string;
 
-    constructor(name, password, cpf, phone, email, created_at, user_role) {
+    constructor(name, login, password, cpf, phone, email, created_at, user_role) {
         this.name = name;
+        this.login = login;
         this.password = password;
         this.cpf = cpf;
         this.phone = phone;

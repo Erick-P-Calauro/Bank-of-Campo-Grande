@@ -7,7 +7,7 @@ import { UserSave } from "./UserSave";
 export class UserMapper {
 
     static toUserSaveDto(user: UserRequest, password: string, created_at: Date, user_role: UserRole): UserSave {
-        return new UserSave(user.name, password, user.cpf, user.phone, user.email, created_at, user_role);
+        return new UserSave(user.name, user.login, password, user.cpf, user.phone, user.email, created_at, user_role);
     }
 
     static toUserResponseDto(user : User) : UserResponse {
@@ -15,7 +15,9 @@ export class UserMapper {
         const sanitizedPhone = user.phone ?? "";
         const sanitizedEmail = user.email ?? "";
 
-        return new UserResponse(user.user_id, user.name, user.password, user.cpf, sanitizedPhone, sanitizedEmail, user.created_at, userRoleName);
+        console.log(user.login);
+
+        return new UserResponse(user.user_id, user.name, user.login, user.password, user.cpf, sanitizedPhone, sanitizedEmail, user.created_at, userRoleName);
     }
 
 }

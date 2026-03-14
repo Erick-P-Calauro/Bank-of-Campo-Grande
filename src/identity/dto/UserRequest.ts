@@ -7,6 +7,8 @@ export class UserRequest {
     })
     name: string;
 
+    login: string;
+
     password: string;
 
     @ApiProperty({

@@ -1,9 +1,5 @@
+import { UserRole } from "src/auth/roles";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
-export enum UserRole {
-    "manager",
-    "client"
-}
 
 @Entity({name: "tb_user"})
 export class User {
@@ -13,6 +9,9 @@ export class User {
 
     @Column({type: "varchar", length: 45, nullable: false, unique: true})
     name: string;
+
+    @Column({type: "varchar", length: 45, nullable: false, unique: true})
+    login: string;
 
     @Column({type: "text", nullable: false})
     password: string;
