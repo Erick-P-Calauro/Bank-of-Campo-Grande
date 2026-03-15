@@ -9,6 +9,6 @@ import { User } from 'src/identity/models/User';
 @Module({
   imports: [TypeOrmModule.forFeature([Account, User])],
   controllers: [AccountsController],
-  providers: [AccountsService, IdentityService]
+  providers: [AccountsService, IdentityService],
 })
 export class AccountsModule {}

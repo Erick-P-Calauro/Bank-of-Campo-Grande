@@ -1,9 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AccountRequest {
-    @ApiProperty({
-        required: true,
-        maxLength: 45
-    })
-    account_name: string
+  @ApiProperty({
+    required: true,
+    maxLength: 45,
+  })
+  account_name: string;
 }

@@ -1,5 +1,5 @@
 export enum AccountStatus {
-    'active',
-    'paused',
-    'cancelled'
+  'active',
+  'paused',
+  'cancelled',
 }

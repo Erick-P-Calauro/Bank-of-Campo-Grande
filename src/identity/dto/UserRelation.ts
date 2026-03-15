@@ -1,7 +1,7 @@
 export class UserRelation {
-    user_id: string;
+  user_id: string;
 
-    constructor(user_id) {
-        this.user_id = user_id;
-    }
+  constructor(user_id: string) {
+    this.user_id = user_id;
+  }
 }

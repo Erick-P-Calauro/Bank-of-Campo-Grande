@@ -9,87 +9,88 @@ import { hash, genSalt } from 'bcrypt';
 import { UserUpdate } from './dto/UserRequest';
 
 @Injectable()
-export class IdentityService implements OnApplicationBootstrap{
-    constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
-    ) {}
+export class IdentityService implements OnApplicationBootstrap {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-    public static flag = 0;
-    
-    public async onApplicationBootstrap() {
-        const user = await this.userRepository.existsBy({login: process.env.ADMIN_LOGIN ?? ""});
+  public static flag = 0;
 
-        if(!user && !IdentityService.flag) {
-            this.userRepository.save(new UserSave(
-                'admin', 
-                process.env.ADMIN_LOGIN ?? "",
-                await hash(process.env.ADMIN_PASSWORD ?? "", await genSalt()),
-                "00000000000",
-                "",
-                "",
-                new Date(Date.now()), 
-                UserRole.manager)
-            );
+  public async onApplicationBootstrap() {
+    const user = await this.userRepository.existsBy({
+      user_login: process.env.ADMIN_LOGIN ?? '',
+    });
 
-            IdentityService.flag = 1;
-        }
+    if (!user && !IdentityService.flag) {
+      await this.userRepository.save(
+        new UserSave(
+          'admin',
+          process.env.ADMIN_LOGIN ?? '',
+          await hash(process.env.ADMIN_PASSWORD ?? '', await genSalt()),
+          '00000000000',
+          '',
+          '',
+          new Date(Date.now()),
+          UserRole.manager,
+        ),
+      );
+
+      IdentityService.flag = 1;
+    }
+  }
+
+  public save(user: UserSave) {
+    return this.userRepository.save(user);
+  }
+
+  public findAll() {
+    return this.userRepository.find();
+  }
+
+  public async findById(user_id: string) {
+    const user = await this.userRepository.findOneBy({ user_id: user_id });
+
+    if (user == null) {
+      throw new UserNotFoundException();
     }
 
-    public save (user: UserSave) {
-        return this.userRepository.save(user);
+    return user;
+  }
+
+  public async findByLogin(user_login: string) {
+    const user = await this.userRepository.findOneBy({
+      user_login: user_login,
+    });
+
+    if (user == null) {
+      throw new UserNotFoundException();
     }
 
-    public findAll () {
-        return this.userRepository.find();
+    return user;
+  }
+
+  public async findByCpf(user_cpf: string) {
+    const user = await this.userRepository.findOneBy({ user_cpf: user_cpf });
+
+    if (user == null) {
+      throw new UserNotFoundException();
     }
 
-    public async findById(id: string) {
-        const user = await this.userRepository.findOneBy({user_id: id});
+    return user;
+  }
 
-        if(user == null) {
-            throw new UserNotFoundException();
-        }
+  public async edit(user_id: string, user: UserUpdate) {
+    const userExist = await this.userRepository.existsBy({ user_id: user_id });
 
-        return user;
+    if (!userExist) {
+      throw new UserNotFoundException();
     }
 
-    public async findByLogin(login: string) {
-        const user = await this.userRepository.findOneBy({login: login});
+    return this.userRepository.update({ user_id: user_id }, user);
+  }
 
-        if(user == null) {
-            throw new UserNotFoundException();
-        }
-
-        return user;
-    }
-
-    public async findByCpf(cpf: string) {
-        const user = await this.userRepository.findOneBy({cpf: cpf});
-
-        if(user == null) {
-            throw new UserNotFoundException();
-        }
-
-        return user;
-    }
-
-    public async verifyUserExistence(id: string) {
-        return await this.userRepository.existsBy({user_id: id})
-    }
-
-    public async edit(id: string, user: UserUpdate) {
-        const userExist = await this.verifyUserExistence(id);
-
-        if(!userExist) {
-            throw new UserNotFoundException();
-        }
-
-        return this.userRepository.update({user_id: id}, user)
-    }
-
-    public delete(id: string) {
-        return this.userRepository.delete({user_id: id});
-    }
-
+  public delete(user_id: string) {
+    return this.userRepository.delete({ user_id: user_id });
+  }
 }

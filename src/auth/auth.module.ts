@@ -10,16 +10,16 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ".env"
+      envFilePath: '.env',
     }),
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '600s' }
-    })
+      signOptions: { expiresIn: '600s' },
+    }),
   ],
   providers: [AuthService, IdentityService],
-  controllers: [AuthController]
+  controllers: [AuthController],
 })
 export class AuthModule {}
