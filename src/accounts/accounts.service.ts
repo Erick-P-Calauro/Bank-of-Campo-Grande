@@ -20,7 +20,7 @@ export class AccountsService {
     return await this.AccountRepository.find();
   }
 
-  public async findAllActive() {
+  public async findAllActiveOrPaused() {
     return await this.AccountRepository.findBy([
       {
         status: AccountStatus.active,
@@ -31,7 +31,7 @@ export class AccountsService {
     ]);
   }
 
-  public async findAllActiveByUserId(user_id: string) {
+  public async findAllActiveOrPausedByUserId(user_id: string) {
     return await this.AccountRepository.findBy([
       {
         account_owner: { user_id: user_id },
@@ -44,7 +44,7 @@ export class AccountsService {
     ]);
   }
 
-  public async findActiveById(account_id: string) {
+  public async findActiveOrPausedById(account_id: string) {
     const account = this.AccountRepository.findOneBy([
       {
         account_id: account_id,
@@ -64,12 +64,9 @@ export class AccountsService {
   }
 
   public async pauseAccount(account_id: string) {
-    const account: Account = (await this.findActiveById(account_id))!;
+    const account: Account = (await this.findActiveOrPausedById(account_id))!;
 
-    if (
-      account.status == AccountStatus.paused ||
-      account.status == AccountStatus.cancelled
-    ) {
+    if (account.status == AccountStatus.paused) {
       return;
     }
 
@@ -79,13 +76,20 @@ export class AccountsService {
   }
 
   public async deleteAccount(account_id: string) {
-    const account = (await this.findActiveById(account_id))!;
+    const account = (await this.findActiveOrPausedById(account_id))!;
+    account.status = AccountStatus.cancelled;
 
-    if (account.status == AccountStatus.cancelled) {
+    await this.AccountRepository.save(account);
+  }
+
+  public async resumeAccount(account_id: string) {
+    const account = (await this.findActiveOrPausedById(account_id))!;
+
+    if (account.status == AccountStatus.active) {
       return;
     }
 
-    account.status = AccountStatus.cancelled;
+    account.status = AccountStatus.active;
 
     await this.AccountRepository.save(account);
   }

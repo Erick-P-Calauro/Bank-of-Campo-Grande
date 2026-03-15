@@ -26,7 +26,7 @@ Operações de Conta :
     - Como cliente, eu gostaria de criar uma conta. (Ok)
     - Como cliente, eu gostaria de acessar minha conta com minhas credenciais. (Ok)
     - Como cliente, eu gostaria de pedir a mudança das credenciais da minha conta. (Ok)
-    - Como cliente, eu gostaria de pedir o cancelamento de uma conta. 
+    - Como cliente, eu gostaria de pedir o cancelamento de uma conta. (Ok)
     - Como cliente, eu gostaria de cadastrar um cartão de débito.
     - Como cliente, eu gostaria de pedir o bloqueio de um cartão de débito.
     - Como cliente, eu gostaria de pedir o cancelamento de um cartão de débito.
@@ -45,11 +45,11 @@ Operações de Transações de Contas :
 
 - Como gerente, eu gostaria de ter acesso às contas dos clientes do banco. (Ok)
 - Como gerente, eu gostaria de ter acesso aos detalhes da conta de um cliente. (Ok)
-- Como gerente, eu gostaria de pausar o funcionamento de uma conta de um cliente.
-- Como gerente, eu gostaria de retomar o funcionamento de uma conta de um cliente.
+- Como gerente, eu gostaria de pausar o funcionamento de uma conta de um cliente. (Ok)
+- Como gerente, eu gostaria de retomar o funcionamento de uma conta de um cliente. (Ok) 
 
-Operações Gerenciais Futuras : 
+Operações Gerenciais Futuras (Baseadas na lógica de pedido-permissão): 
     - Como gerente, eu gostaria de efetuar o cancelamento de conta solicitado pelos clientes.
     - Como gerente, eu gostaria de efetuar o bloqueio de cartão de débito solicitado pelos clientes.
     - Como gerente, eu gostaria de efetuar o cancelamento de cartão de débito solicitado pelos clientes.
-    - Como gerente, eu gostaria de efetuar as mudanças de credenciais de conta solicitadas pelos clientes. 
+    - Como gerente, eu gostaria de efetuar as mudanças de credenciais de conta solicitadas pelos clientes.

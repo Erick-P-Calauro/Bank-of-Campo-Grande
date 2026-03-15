@@ -52,7 +52,7 @@ export class AccountsController {
       );
     }
 
-    const accounts = await this.AccountsService.findAllActiveByUserId(
+    const accounts = await this.AccountsService.findAllActiveOrPausedByUserId(
       user.user_id,
     );
 
@@ -82,5 +82,12 @@ export class AccountsController {
   @HttpCode(204)
   public async pauseAccount(@Param('accountId') accountId: string) {
     await this.AccountsService.pauseAccount(accountId);
+  }
+
+  @Post(':accountId/resume')
+  @Roles(UserRole.manager)
+  @HttpCode(204)
+  public async resumeAccount(@Param('accountId') accountId: string) {
+    await this.AccountsService.resumeAccount(accountId);
   }
 }

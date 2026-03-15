@@ -14,7 +14,7 @@ export class AccountOwnershipGuard implements CanActivate {
     const user: UserPayload = req['user'];
     const accountId: string = req.params.accountId.toString();
 
-    const account = await this.AccountService.findActiveById(accountId);
+    const account = await this.AccountService.findActiveOrPausedById(accountId);
 
     if (
       account?.account_owner.user_id != user.user_id &&
