@@ -16,7 +16,6 @@ import { UserRole } from 'src/auth/roles';
 import { AccountOwnershipGuard } from './account.ownership.guard';
 
 import { Roles } from 'src/utils/global.decorators';
-import { AccountStatus } from './status';
 
 @Controller('/account')
 export class AccountsController {
@@ -53,7 +52,9 @@ export class AccountsController {
       );
     }
 
-    const accounts = await this.AccountsService.findAllByUserId(user.user_id);
+    const accounts = await this.AccountsService.findAllActiveByUserId(
+      user.user_id,
+    );
 
     return accounts.map((account) =>
       AccountMapper.toAccountResponseDto(account),
@@ -69,32 +70,17 @@ export class AccountsController {
     return AccountMapper.toAccountResponseDto(account);
   }
 
-  // Decidir se vai ser deletada ou cancelada para auditoria
-  // Decidir as implicações de cancelar uma conta no sistema
   @Delete(':accountId')
   @HttpCode(204)
   @UseGuards(AccountOwnershipGuard)
-  public deleteAccount(@Param('accountId') accountId: string) {
-    this.AccountsService.deleteAccount(accountId);
+  public async cancelAccount(@Param('accountId') accountId: string) {
+    await this.AccountsService.deleteAccount(accountId);
   }
 
   @Post(':accountId/pause')
   @Roles(UserRole.manager)
   @HttpCode(204)
   public async pauseAccount(@Param('accountId') accountId: string) {
-    await this.AccountsService.changeAccountStatus(
-      accountId,
-      AccountStatus.paused,
-    );
-  }
-
-  @Post(':accountId/cancel')
-  @Roles(UserRole.manager)
-  @HttpCode(204)
-  public async cancelAccount(@Param('accountId') accountId: string) {
-    await this.AccountsService.changeAccountStatus(
-      accountId,
-      AccountStatus.cancelled,
-    );
+    await this.AccountsService.pauseAccount(accountId);
   }
 }

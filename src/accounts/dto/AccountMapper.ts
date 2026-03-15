@@ -32,8 +32,8 @@ export class AccountMapper {
       account.account_name,
       {
         user_id: account.account_owner.user_id,
-        name: account.account_owner.user_name,
-        cpf: account.account_owner.user_cpf,
+        user_name: account.account_owner.user_name,
+        user_cpf: account.account_owner.user_cpf,
       },
       account.created_at,
       sanitizedStatus,

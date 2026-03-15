@@ -20,16 +20,41 @@ export class AccountsService {
     return await this.AccountRepository.find();
   }
 
-  public async findAllByUserId(user_id: string) {
-    return await this.AccountRepository.findBy({
-      account_owner: { user_id: user_id },
-    });
+  public async findAllActive() {
+    return await this.AccountRepository.findBy([
+      {
+        status: AccountStatus.active,
+      },
+      {
+        status: AccountStatus.paused,
+      },
+    ]);
   }
 
-  public async findById(account_id: string) {
-    const account = this.AccountRepository.findOneBy({
-      account_id: account_id,
-    });
+  public async findAllActiveByUserId(user_id: string) {
+    return await this.AccountRepository.findBy([
+      {
+        account_owner: { user_id: user_id },
+        status: AccountStatus.active,
+      },
+      {
+        account_owner: { user_id: user_id },
+        status: AccountStatus.paused,
+      },
+    ]);
+  }
+
+  public async findActiveById(account_id: string) {
+    const account = this.AccountRepository.findOneBy([
+      {
+        account_id: account_id,
+        status: AccountStatus.active,
+      },
+      {
+        account_id: account_id,
+        status: AccountStatus.paused,
+      },
+    ]);
 
     if (account == null) {
       throw new HttpException('Account not found.', 404);
@@ -38,17 +63,30 @@ export class AccountsService {
     return account;
   }
 
-  public async deleteAccount(account_id: string) {
-    await this.AccountRepository.delete({ account_id: account_id });
+  public async pauseAccount(account_id: string) {
+    const account: Account = (await this.findActiveById(account_id))!;
+
+    if (
+      account.status == AccountStatus.paused ||
+      account.status == AccountStatus.cancelled
+    ) {
+      return;
+    }
+
+    account.status = AccountStatus.paused;
+
+    await this.AccountRepository.save(account);
   }
 
-  public async changeAccountStatus(
-    account_id: string,
-    newStatus: AccountStatus,
-  ) {
-    const account = await this.findById(account_id);
-    account!.status = newStatus;
+  public async deleteAccount(account_id: string) {
+    const account = (await this.findActiveById(account_id))!;
 
-    await this.AccountRepository.save(account!);
+    if (account.status == AccountStatus.cancelled) {
+      return;
+    }
+
+    account.status = AccountStatus.cancelled;
+
+    await this.AccountRepository.save(account);
   }
 }

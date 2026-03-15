@@ -3,8 +3,8 @@ export class AccountResponse {
   account_name: string;
   account_owner: {
     user_id: string;
-    name: string;
-    cpf: string;
+    user_name: string;
+    user_cpf: string;
   };
   created_at: Date;
   status: string;
@@ -14,8 +14,8 @@ export class AccountResponse {
     accountName: string,
     accountOwner: {
       user_id: string;
-      name: string;
-      cpf: string;
+      user_name: string;
+      user_cpf: string;
     },
     created_at: Date,
     status: string,

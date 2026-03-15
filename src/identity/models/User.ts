@@ -21,7 +21,7 @@ export class User {
   @Column({ type: 'varchar', length: 11, nullable: true })
   user_phone: string | undefined;
 
-  @Column({ type: 'varchar', length: 60, nullable: true, unique: true })
+  @Column({ type: 'varchar', length: 60, nullable: true })
   user_email: string | undefined;
 
   @Column({ type: 'timestamp', nullable: false })
