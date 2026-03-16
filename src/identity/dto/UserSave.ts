@@ -1,4 +1,4 @@
-import { UserRole } from 'src/auth/roles';
+import { UserRole } from 'src/auth/roles.enum.';
 
 export class UserSave {
   user_name: string;

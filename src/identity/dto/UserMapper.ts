@@ -1,5 +1,5 @@
 import { User } from '../models/User';
-import { UserRole } from '../../auth/roles';
+import { UserRole } from '../../auth/roles.enum.';
 import { UserRequest, UserUpdate } from './UserRequest';
 import { UserResponse } from './UserResponse';
 import { UserSave } from './UserSave';

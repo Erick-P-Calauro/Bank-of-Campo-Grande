@@ -1,4 +1,4 @@
-import { UserRole } from 'src/auth/roles';
+import { UserRole } from 'src/auth/roles.enum.';
 
 export type UserPayload = {
   user_id: string;

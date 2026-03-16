@@ -13,7 +13,7 @@ import { IdentityService } from './identity.service';
 import { UserRequest, UserUpdate } from './dto/UserRequest';
 import { UserMapper } from './dto/UserMapper';
 import * as bcrypt from 'bcrypt';
-import { UserRole } from '../auth/roles';
+import { UserRole } from '../auth/roles.enum.';
 import { Public, Roles } from 'src/utils/global.decorators';
 
 @Controller('/identity/user')

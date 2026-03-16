@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
-import { UserRole } from 'src/auth/roles';
+import { UserRole } from 'src/auth/roles.enum.';
 import { Request } from 'express';
-import { UserPayload } from 'src/utils/types';
+import { UserPayload } from 'src/auth/user-payload.type';
 
 @Injectable()
 export class AccountOwnershipGuard implements CanActivate {

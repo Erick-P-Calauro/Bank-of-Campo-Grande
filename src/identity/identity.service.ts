@@ -4,7 +4,7 @@ import { User } from './models/User';
 import { Repository } from 'typeorm';
 import { UserSave } from './dto/UserSave';
 import { UserNotFoundException } from './exceptions/UserNotFound';
-import { UserRole } from 'src/auth/roles';
+import { UserRole } from 'src/auth/roles.enum.';
 import { hash, genSalt } from 'bcrypt';
 import { UserUpdate } from './dto/UserRequest';
 

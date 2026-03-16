@@ -6,16 +6,19 @@ import {
   HttpCode,
   Param,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AccountRequest } from './dto/AccountRequest';
 import { AccountsService } from './accounts.service';
 import { AccountMapper } from './dto/AccountMapper';
-import { UserRole } from 'src/auth/roles';
-import { AccountOwnershipGuard } from './account.ownership.guard';
+import { UserRole } from 'src/auth/roles.enum.';
+import { AccountOwnershipGuard } from './account-ownership.guard';
 
 import { Roles } from 'src/utils/global.decorators';
+import { OwnedAccount } from './owned-account.decorator';
+import { Account } from './models/Account';
+import { AuthUser } from 'src/auth/auth-user.decorator';
+import type { UserPayload } from 'src/auth/user-payload.type';
 
 @Controller('/account')
 export class AccountsController {
@@ -24,10 +27,10 @@ export class AccountsController {
   @Post('')
   @HttpCode(201)
   public async createAccount(
-    @Req() req: Request,
+    @AuthUser() user_payload: UserPayload,
     @Body() account: AccountRequest,
   ) {
-    const userId = req['user'].user_id;
+    const userId = user_payload.user_id;
     const created_at = new Date(Date.now());
 
     const accountToInsert = AccountMapper.toAccountSaveDto(
@@ -42,10 +45,8 @@ export class AccountsController {
 
   @Get('')
   @HttpCode(200)
-  public async listAccounts(@Req() req: Request) {
-    const user = req['user'];
-
-    if (user.user_role == UserRole.manager) {
+  public async listAccounts(@AuthUser() user_payload: UserPayload) {
+    if (user_payload.user_role == UserRole.manager) {
       const accounts = await this.AccountsService.findAll();
       return accounts.map((account) =>
         AccountMapper.toAccountResponseDto(account),
@@ -53,7 +54,7 @@ export class AccountsController {
     }
 
     const accounts = await this.AccountsService.findAllActiveOrPausedByUserId(
-      user.user_id,
+      user_payload.user_id,
     );
 
     return accounts.map((account) =>
@@ -64,9 +65,7 @@ export class AccountsController {
   @Get(':accountId')
   @HttpCode(200)
   @UseGuards(AccountOwnershipGuard)
-  public getAccountById(@Req() req: Request) {
-    const account = req['account'];
-
+  public getAccountById(@OwnedAccount() account: Account) {
     return AccountMapper.toAccountResponseDto(account);
   }
 
